@@ -41,8 +41,9 @@ Keep it short.
     
     try:
         response = client.chat.completions.create(
-            model="gpt-4o",  # Using GPT-4 Turbo (gpt-5 not available yet)
-            messages=[{"role": "user", "content": prompt}]
+            model="gpt-5",
+            messages=[{"role": "user", "content": prompt}],
+            timeout=60  # Add explicit timeout
         )
         
         script = response.choices[0].message.content.strip()
