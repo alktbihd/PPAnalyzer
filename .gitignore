@@ -94,11 +94,9 @@ model/privbert-finetuned/
 privbert-finetuned/
 backend/model/privbert-finetuned/
 
-# Model files too large for git (upload separately to Azure)
-backend/model/privbert_final/model.safetensors
+# Model files - using Git LFS for large files
 backend/model/privbert_final/*.zip
 model.zip
-*.zip
 
 # Deployment packages
 backend-deploy.zip
