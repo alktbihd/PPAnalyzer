@@ -41,7 +41,6 @@ export default function VideoGenerationCard({ summary, onVideoGenerated }) {
       }
 
       const data = await response.json();
-      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       setVideoUrl(`${API_URL}${data.data.video_url}`);
       setProgress(100);
       setStatus('success');
