@@ -32,8 +32,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://localhost:5173",
-        "https://*.azurestaticapps.net",
-        "https://ppanalyzer.azurestaticapps.net",
+        "https://salmon-rock-0b1a8df03.3.azurestaticapps.net",  # Production frontend
         "https://ppanalyzer-backend.azurewebsites.net"
     ],
     allow_credentials=True,
