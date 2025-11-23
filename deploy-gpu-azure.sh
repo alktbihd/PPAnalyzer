@@ -22,21 +22,34 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}🚀 PPAnalyzer GPU Deployment${NC}"
 echo "================================"
 
-# Get API keys from current App Service
-echo -e "\n${YELLOW}📋 Fetching API keys from App Service...${NC}"
-OPENAI_KEY=$(az webapp config appsettings list \
-  --name ppanalyzer-backend \
-  --resource-group $RESOURCE_GROUP \
-  --query "[?name=='OPENAI_API_KEY'].value | [0]" -o tsv)
+# Get API keys from current App Service or use provided ones
+echo -e "\n${YELLOW}📋 Setting up API keys...${NC}"
 
-HEYGEN_KEY=$(az webapp config appsettings list \
-  --name ppanalyzer-backend \
-  --resource-group $RESOURCE_GROUP \
-  --query "[?name=='HEYGEN_API_KEY'].value | [0]" -o tsv)
+# Check if keys are provided as environment variables
+if [ -z "$OPENAI_API_KEY" ] || [ -z "$HEYGEN_API_KEY" ]; then
+    echo -e "${YELLOW}⚠️  API keys not provided as environment variables${NC}"
+    echo "Trying to fetch from App Service..."
+    
+    OPENAI_KEY=$(az webapp config appsettings list \
+      --name ppanalyzer-backend \
+      --resource-group $RESOURCE_GROUP \
+      --query "[?name=='OPENAI_API_KEY'].value | [0]" -o tsv 2>/dev/null)
 
-if [ -z "$OPENAI_KEY" ] || [ -z "$HEYGEN_KEY" ]; then
-    echo -e "${YELLOW}⚠️  Warning: API keys not found in App Service${NC}"
-    echo "Please enter them manually when prompted"
+    HEYGEN_KEY=$(az webapp config appsettings list \
+      --name ppanalyzer-backend \
+      --resource-group $RESOURCE_GROUP \
+      --query "[?name=='HEYGEN_API_KEY'].value | [0]" -o tsv 2>/dev/null)
+    
+    if [ -z "$OPENAI_KEY" ] || [ -z "$HEYGEN_KEY" ]; then
+        echo -e "${YELLOW}⚠️  Could not fetch keys automatically${NC}"
+        echo ""
+        read -p "Enter OPENAI_API_KEY: " OPENAI_KEY
+        read -p "Enter HEYGEN_API_KEY: " HEYGEN_KEY
+    fi
+else
+    OPENAI_KEY=$OPENAI_API_KEY
+    HEYGEN_KEY=$HEYGEN_API_KEY
+    echo "✓ Using provided API keys"
 fi
 
 # Build and push GPU Docker image
