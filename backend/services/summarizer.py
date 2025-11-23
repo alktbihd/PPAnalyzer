@@ -73,7 +73,7 @@ PrivBERT Output:
     
     try:
         response = client.chat.completions.create(
-            model="gpt-5",
+            model="gpt-4o",  # Using GPT-4 Turbo (gpt-5 not available yet)
             messages=[{"role": "user", "content": prompt}]
         )
         
