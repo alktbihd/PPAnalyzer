@@ -107,16 +107,11 @@ async def analyze_policy(file: UploadFile = File(...)):
         logger.info(f"[{file_id}] Extracted {len(sentences)} sentences")
         
         # 4. Classify sentences using PrivBERT
-        if USE_HF_API:
-            # Use Hugging Face Inference API (fast, GPU-powered)
+        if USE_REAL_PRIVBERT:
+            # Use real PrivBERT model with async threading for concurrency
             from fastapi.concurrency import run_in_threadpool
-            classified_sentences = await run_in_threadpool(classify_sentences_hf, sentences)
-            logger.info(f"[{file_id}] Classified {len(classified_sentences)} sentences using HF API")
-        elif USE_REAL_PRIVBERT:
-            # Use local PrivBERT model
-            from fastapi.concurrency import run_in_threadpool
-            classified_sentences = await run_in_threadpool(classify_sentences_local, sentences)
-            logger.info(f"[{file_id}] Classified {len(classified_sentences)} sentences using local PrivBERT model")
+            classified_sentences = await run_in_threadpool(classify_sentences, sentences)
+            logger.info(f"[{file_id}] Classified {len(classified_sentences)} sentences using PrivBERT model")
         else:
             # Use mock data
             classified_sentences = get_mock_classification()
@@ -207,16 +202,11 @@ async def analyze_policy_from_url(request: URLAnalysisRequest):
         logger.info(f"[{file_id}] Extracted {len(sentences)} sentences")
         
         # 4. Classify sentences using PrivBERT
-        if USE_HF_API:
-            # Use Hugging Face Inference API (fast, GPU-powered)
+        if USE_REAL_PRIVBERT:
+            # Use real PrivBERT model with async threading for concurrency
             from fastapi.concurrency import run_in_threadpool
-            classified_sentences = await run_in_threadpool(classify_sentences_hf, sentences)
-            logger.info(f"[{file_id}] Classified {len(classified_sentences)} sentences using HF API")
-        elif USE_REAL_PRIVBERT:
-            # Use local PrivBERT model
-            from fastapi.concurrency import run_in_threadpool
-            classified_sentences = await run_in_threadpool(classify_sentences_local, sentences)
-            logger.info(f"[{file_id}] Classified {len(classified_sentences)} sentences using local PrivBERT model")
+            classified_sentences = await run_in_threadpool(classify_sentences, sentences)
+            logger.info(f"[{file_id}] Classified {len(classified_sentences)} sentences using PrivBERT model")
         else:
             # Use mock data
             classified_sentences = get_mock_classification()
