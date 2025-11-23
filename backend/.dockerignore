@@ -34,9 +34,6 @@ logs/
 .DS_Store
 Thumbs.db
 
-# Model file (upload separately)
-model/privbert_final/model.safetensors
-
 # Azure
 .azure/
 
