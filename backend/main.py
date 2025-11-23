@@ -11,8 +11,7 @@ from services.summarizer import generate_fewshot_summary
 from services.script_generator import generate_video_script
 from services.video_generator import generate_video
 from services.url_fetcher import fetch_policy_from_url, validate_url
-from services.classifier import classify_sentences as classify_sentences_local, load_model
-from services.classifier_hf import classify_sentences as classify_sentences_hf, check_hf_api_status
+from services.classifier import classify_sentences, load_model
 from mock_data import get_mock_classification
 from pydantic import BaseModel
 
@@ -47,32 +46,19 @@ OUTPUT_DIR = Path("outputs")
 UPLOAD_DIR.mkdir(exist_ok=True)
 OUTPUT_DIR.mkdir(exist_ok=True)
 
-# Global flag to determine classification method
-USE_HF_API = os.getenv("USE_HF_API", "true").lower() == "true"  # Default to HF API
-USE_REAL_PRIVBERT = False  # Local model flag
+# Global flag to determine whether to use real PrivBERT or mock data
+USE_REAL_PRIVBERT = False
 
 # Load PrivBERT model on startup if available
 @app.on_event("startup")
 async def startup_event():
-    global USE_REAL_PRIVBERT, USE_HF_API
-    
-    # Check if we should use Hugging Face API
-    if USE_HF_API:
-        hf_available, hf_status = check_hf_api_status()
-        if hf_available:
-            logger.info(f"✓ Using Hugging Face Inference API - {hf_status}")
-            return
-        else:
-            logger.warning(f"⚠ HF API not available: {hf_status}. Trying local model...")
-            USE_HF_API = False
-    
-    # Try to load local model as fallback
+    global USE_REAL_PRIVBERT
     try:
         load_model()
         USE_REAL_PRIVBERT = True
-        logger.info("✓ PrivBERT model loaded locally - using real classification")
+        logger.info("✓ PrivBERT model loaded - using real classification")
     except Exception as e:
-        logger.warning(f"Could not load local PrivBERT model: {e}")
+        logger.warning(f"⚠ Could not load PrivBERT model: {str(e)}")
         logger.info("✓ Using mock classification data")
         USE_REAL_PRIVBERT = False
 
