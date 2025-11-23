@@ -43,7 +43,7 @@ Keep it short.
         response = client.chat.completions.create(
             model="gpt-5",
             messages=[{"role": "user", "content": prompt}],
-            timeout=60  # Add explicit timeout
+            timeout=120.0  # Increased timeout for script generation
         )
         
         script = response.choices[0].message.content.strip()
