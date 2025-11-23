@@ -1,0 +1,125 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+backend/venv/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+frontend/dist/
+frontend/build/
+.npm
+.pnp
+.pnp.js
+
+# Environment Variables
+.env
+.env.local
+.env.production.local
+.env.development.local
+.env.test.local
+backend/.env
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Runtime directories
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/outputs/*
+!backend/outputs/.gitkeep
+
+# Old standalone scripts (replaced by backend services)
+pp_api.py
+pp_video_api.py
+pp_image_api.py
+pp_image_cot.py
+pp_test_with_sora.py
+pp_first10sentence.py
+syn_test.py
+extract_sentences.py
+filter_pp.py
+
+# Old data files
+pp_dataset.csv
+pp_sentences.csv
+pp_sentences_first5.csv
+pp_sentences_first10.csv
+pp_sentences_next40_label.csv
+sampleoutput.txt
+sampleoutputbetter.txt
+privbert_summary_results.json
+removed_files.txt
+narrator_script.txt
+
+# Old output files
+privacy_summary.png
+privacy_summary_infographic.png
+xr_privacy_explainer.mp4
+out/
+outputs/
+
+# Large data folders (not needed for web app)
+pp_clean/
+pp_policies/
+privacy_evaluation/
+
+# Old Scrapy project (not used in web app)
+ppaudit/
+scrapy.cfg
+
+# Model checkpoints (keep only final model)
+model/privbert-finetuned/
+privbert-finetuned/
+backend/model/privbert-finetuned/
+
+# Model files too large for git (upload separately to Azure)
+backend/model/privbert_final/model.safetensors
+backend/model/privbert_final/*.zip
+model.zip
+*.zip
+
+# Deployment packages
+backend-deploy.zip
+backend-app.zip
+
+# Dependencies folder (installed via requirements.txt)
+backend/dependencies/
+AZURE_DEPLOYMENT.md
+TRAIN_MODEL_GUIDE.md
+PRIVBERT_INTEGRATION.md
+
+# Logs
+*.log
+logs/
+backend/logs/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Azure
+.azure/
+
