@@ -26,8 +26,8 @@ BEST_THRESHOLDS = np.array([0.95, 0.65, 0.85, 0.25, 0.25])
 
 # Hugging Face API configuration
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
-HF_MODEL_ID = os.getenv("HF_MODEL_ID", "alktbihd/privbert-final")  # Will be set after upload
-HF_API_URL = f"https://api-inference.huggingface.co/models/{HF_MODEL_ID}"
+HF_MODEL_ID = os.getenv("HF_MODEL_ID", "saeedalketbi/privbert-final")
+HF_API_URL = f"https://router.huggingface.co/models/{HF_MODEL_ID}"  # Updated endpoint
 
 def sigmoid(x):
     """Sigmoid activation function"""
