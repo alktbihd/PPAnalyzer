@@ -22,6 +22,21 @@ def generate_fewshot_summary(classified_sentences: list[dict]) -> str:
         Summary text string
     """
     
+    # Limit to 50 sentences to prevent timeout (mix of categories)
+    if len(classified_sentences) > 50:
+        # Sample from each category to maintain diversity
+        from collections import defaultdict
+        by_label = defaultdict(list)
+        for item in classified_sentences:
+            by_label[item['label']].append(item)
+        
+        # Take proportional samples from each category
+        sampled = []
+        per_category = 50 // len(by_label) if by_label else 10
+        for label, items in by_label.items():
+            sampled.extend(items[:per_category])
+        classified_sentences = sampled[:50]
+    
     # Convert to format GPT expects
     privbert_output = [
         {"sentence": item["sentence"], "label": item["label"]}
