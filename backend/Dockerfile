@@ -15,7 +15,10 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements first (for better caching)
 COPY requirements.txt .
 
-# Install Python dependencies
+# Install PyTorch CPU-only first (much smaller, ~150MB vs ~3.5GB with CUDA)
+RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch>=2.0.0
+
+# Install other Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Download spaCy model using pip (more reliable in Docker)
